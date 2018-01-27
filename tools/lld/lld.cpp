@@ -62,6 +62,9 @@ static bool isPETarget(const std::vector<const char *> &V) {
 }
 
 static Flavor parseProgname(StringRef Progname) {
+  // OpenOrbis: Всегда заставляйте Darwin для загрузчика 2.0
+  return Darwin;
+  
 #if __APPLE__
   // Use Darwin driver for "ld" on Darwin.
   if (Progname == "ld")
@@ -111,6 +114,8 @@ int main(int Argc, const char **Argv) {
   llvm_shutdown_obj Shutdown;
 
   std::vector<const char *> Args(Argv, Argv + Argc);
+  
+  // OpenOrbis: Всегда заставляйте Darwin для загрузчика 2.0
   switch (parseFlavor(Args)) {
   case Gnu:
     if (isPETarget(Args))
